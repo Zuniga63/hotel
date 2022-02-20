@@ -2,12 +2,12 @@ const mix = require('laravel-mix');
 
 mix.options({
   hmrOptions: {
-    host: 'ensy.test',
+    host: 'hotel.test',
     port: 8080
   }
 });
 
-mix.browserSync('ensy.test');
+mix.browserSync('hotel.test');
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management

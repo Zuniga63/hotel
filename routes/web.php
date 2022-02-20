@@ -5,6 +5,7 @@ use App\Http\Controllers\Cashbox\CashboxController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,16 +20,10 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//   return Inertia::render('Welcome', [
-//     'canLogin' => Route::has('login'),
-//     'canRegister' => Route::has('register'),
-//     'laravelVersion' => Application::VERSION,
-//     'phpVersion' => PHP_VERSION,
-//   ]);
-// });
-
-Route::redirect('/', '/panel', 301);
+Route::get('/', function () {
+  $showcase = asset('images/bapa_showcase.jpg');
+  return Inertia::render('Welcome', compact('showcase'));
+})->name('home');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   // DASBOARD
@@ -74,15 +69,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   //Rutas para manejar transferencia
   Route::post('/cajas/{cashbox}/registrar-transferencia', [CashboxController::class, 'storeTransfer'])->name('cashbox.storeTransfer');
 
-  //RUTA PARA CONFIGURAR SITIO
-  // Route::resource('configuracion', BusinessConfigController::class)
-  //   ->only('index', 'update')
-  //   ->names([
-  //     'index' => 'config.index',
-  //     'update' => 'config.update',
-  //   ])->parameters([
-  //     'configuracion' => 'businessConfig'
-  //   ]);
   Route::get('/configuracion', [BusinessConfigController::class, 'index'])->name('config.index');
   Route::put('/update-basic-config', [BusinessConfigController::class, 'updateBasicConfig'])->name('config.updateBasicConfig');
   Route::delete('/delete-logo', [BusinessConfigController::class, 'deleteLogo'])->name('config.deleteLogo');
